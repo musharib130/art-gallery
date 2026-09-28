@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AuthBootstrap } from "@/components/layout/AuthBootstrap";
-import { NavBar } from "@/components/layout/NavBar";
 
 import "./globals.css";
 
@@ -26,8 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <AuthBootstrap />
-        <NavBar />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10">{children}</main>
+        {children}
       </body>
     </html>
   );

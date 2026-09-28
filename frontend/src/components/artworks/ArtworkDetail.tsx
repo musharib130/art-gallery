@@ -99,7 +99,7 @@ export function ArtworkDetail({ id }: { id: string }) {
           </span>
           {isOwner && (
             <span className="ml-auto">
-              <ButtonLink href={`/studio/artworks/${artwork.id}`} variant="secondary">
+              <ButtonLink href={`/dashboard/artworks/${artwork.id}`} variant="secondary">
                 Edit artwork
               </ButtonLink>
             </span>

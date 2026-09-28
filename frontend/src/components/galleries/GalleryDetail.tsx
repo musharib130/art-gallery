@@ -34,7 +34,7 @@ export function GalleryDetail({ id }: { id: string }) {
           {gallery.description && <p className="whitespace-pre-line">{gallery.description}</p>}
           <div>
             {isOwner ? (
-              <ButtonLink href={`/studio/galleries/${gallery.id}`} variant="secondary">
+              <ButtonLink href={`/dashboard/galleries/${gallery.id}`} variant="secondary">
                 Manage gallery
               </ButtonLink>
             ) : (

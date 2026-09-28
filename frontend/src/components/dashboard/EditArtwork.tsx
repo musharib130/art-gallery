@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { RequireAuth } from "@/components/common/RequireAuth";
-import { ArtworkForm, type ArtworkValues } from "@/components/studio/ArtworkForm";
 import { Button, Empty, ErrorText, Loading, PageHeader } from "@/components/common/ui";
-import { api, type Artwork, type UserMe } from "@/lib/api";
+import { ArtworkForm, type ArtworkValues } from "@/components/dashboard/ArtworkForm";
+import { useDashboardArtist } from "@/components/dashboard/DashboardLayout";
+import { api, type Artwork } from "@/lib/api";
 import { useResource } from "@/lib/hooks";
 import { useArtworks } from "@/stores/artworks";
 
@@ -20,7 +20,8 @@ function sameImages(artwork: Artwork, values: ArtworkValues): boolean {
   );
 }
 
-function EditArtworkContent({ user, id }: { user: UserMe; id: string }) {
+export function EditArtwork({ id }: { id: string }) {
+  const user = useDashboardArtist();
   const router = useRouter();
   const { data: artwork, setData, error } = useResource<Artwork>(`/artworks/${id}`);
   const upsert = useArtworks((s) => s.upsert);
@@ -58,7 +59,7 @@ function EditArtworkContent({ user, id }: { user: UserMe; id: string }) {
     try {
       await api.delete(`/artworks/${id}`);
       removeCached(id);
-      router.push(`/studio/galleries/${artwork.gallery.id}`);
+      router.push(`/dashboard/galleries/${artwork.gallery.id}`);
     } catch (e) {
       setDeleteError(e instanceof Error ? e.message : "Could not delete");
     }
@@ -71,7 +72,7 @@ function EditArtworkContent({ user, id }: { user: UserMe; id: string }) {
         subtitle={
           <>
             In{" "}
-            <Link href={`/studio/galleries/${artwork.gallery.id}`} className="underline">
+            <Link href={`/dashboard/galleries/${artwork.gallery.id}`} className="underline">
               {artwork.gallery.title}
             </Link>{" "}
             ·{" "}
@@ -95,8 +96,4 @@ function EditArtworkContent({ user, id }: { user: UserMe; id: string }) {
       </section>
     </>
   );
-}
-
-export function EditArtwork({ id }: { id: string }) {
-  return <RequireAuth artist>{(user) => <EditArtworkContent user={user} id={id} />}</RequireAuth>;
 }

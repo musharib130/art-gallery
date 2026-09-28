@@ -34,13 +34,21 @@ export function NavBar() {
         <NavLink href="/explore">Explore</NavLink>
         <NavLink href="/artists">Artists</NavLink>
         {user && <NavLink href="/saved">Saved</NavLink>}
-        {user?.role === "artist" && <NavLink href="/studio">Studio</NavLink>}
         <div className="ml-auto flex items-center gap-2">
           {!ready ? null : user ? (
             <>
-              <Link href="/account" className="text-sm text-subtle hover:text-foreground">
-                {user.display_name}
-              </Link>
+              {user.role === "artist" ? (
+                <Link
+                  href="/dashboard"
+                  className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link href="/account" className="text-sm text-subtle hover:text-foreground">
+                  {user.display_name}
+                </Link>
+              )}
               <button
                 onClick={() => {
                   logout();
